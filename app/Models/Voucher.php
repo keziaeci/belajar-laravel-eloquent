@@ -2,16 +2,22 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Category extends Model
+class Voucher extends Model
 {
-    use HasFactory;
+    use HasFactory, HasUuids;
 
-    protected $table = 'categories';
+    protected $table = 'vouchers';
     protected $primaryKey = 'id';
     protected $keyType = 'string';
     public $incrementing = false;
     public $timestamps = false;
+
+    function uniqueIds()
+    {
+        return [$this->primaryKey, 'voucher_code']   
+    }
 }
