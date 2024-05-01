@@ -22,4 +22,12 @@ class Voucher extends Model
         // ketika ingin menambah kolom lain agar menggunakan uuid
         return [$this->primaryKey, 'voucher_code'];   
     }
+
+    function scopeActive($query) {
+        $query->where('is_active', true);
+    }
+
+    function scopeNonActive($query) {
+        $query->where('is_active', false);
+    }
 }

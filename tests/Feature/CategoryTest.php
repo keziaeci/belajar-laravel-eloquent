@@ -8,6 +8,7 @@ use Database\Seeders\CategorySeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Routing\Middleware\ThrottleRequestsWithRedis;
+use SebastianBergmann\CodeUnit\FunctionUnit;
 use Tests\TestCase;
 
 use function PHPUnit\Framework\assertCount;
