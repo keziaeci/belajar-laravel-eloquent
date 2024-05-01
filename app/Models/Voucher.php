@@ -18,6 +18,7 @@ class Voucher extends Model
 
     function uniqueIds()
     {
-        return [$this->primaryKey, 'voucher_code']   
+        // ketika ingin menambah kolom lain agar menggunakan uuid
+        return [$this->primaryKey, 'voucher_code'];   
     }
 }

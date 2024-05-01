@@ -4,3 +4,6 @@ use belajar_laravel_eloquent;
 
 SELECT * FROM categories;
 SELECT * FROM vouchers;
+
+DESCRIBE comments;
+SELECT * FROM comments;
