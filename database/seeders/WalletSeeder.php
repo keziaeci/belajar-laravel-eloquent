@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Wallet;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -12,6 +13,9 @@ class WalletSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        $category = new Wallet();
+        $category->amount = 100000;
+        $category->customer_id = 'RENA';
+        $category->save();
     }
 }
