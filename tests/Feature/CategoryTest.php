@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\Category;
+use App\Models\Product;
 use App\Models\Scopes\IsActiveScope;
 use Database\Seeders\CategorySeeder;
 use Database\Seeders\ProductSeeder;
@@ -227,5 +228,37 @@ class CategoryTest extends TestCase
         assertNotNull($category);
         assertNotNull($category->products);
         assertCount(1,$category->products);
+    }
+
+    function testOneToManyInsert() {
+        $category = new Category();
+        $category->id = '1';
+        $category->name = 'Category 1';
+        $category->description = 'Desc 1';
+        $category->is_active =  true;
+        $category->save();
+        
+        assertNotNull($category);
+        
+        // dd($category->wallet);
+        $product = new Product();
+        $product->id = '1';
+        $product->name = 'Product 1';
+        $product->description = 'Desc 1';
+        $category->products()->save($product);
+
+        assertNotNull($category->products);
+        assertNotNull($product->category->id);
+    }
+
+    function testRelationshipQuery() {
+        $this->seed([CategorySeeder::class,ProductSeeder::class]);
+        
+        $category = Category::find('FOOD');
+        $product = $category->products;
+        assertCount(1,$product);
+        
+        $outOfStockProducts = $category->products()->where('stock' , '<=' , 0)->get();
+        assertCount(1,$outOfStockProducts);
     }
 }

@@ -13,10 +13,10 @@ class CustomerSeeder extends Seeder
      */
     public function run(): void
     {
-        $category = new Customer();
-        $category->id = 'RENA';
-        $category->name = 'Rena';
-        $category->email = 'rena@gmail.com';
-        $category->save();
+        $customer = new Customer();
+        $customer->id = 'RENA';
+        $customer->name = 'Rena';
+        $customer->email = 'rena@gmail.com';
+        $customer->save();
     }
 }
