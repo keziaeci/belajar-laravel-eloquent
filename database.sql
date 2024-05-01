@@ -7,3 +7,4 @@ SELECT * FROM vouchers;
 
 DESCRIBE comments;
 SELECT * FROM comments;
+SELECT * FROM products;

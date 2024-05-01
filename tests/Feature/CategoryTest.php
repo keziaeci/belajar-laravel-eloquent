@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Models\Category;
 use App\Models\Scopes\IsActiveScope;
 use Database\Seeders\CategorySeeder;
+use Database\Seeders\ProductSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Routing\Middleware\ThrottleRequestsWithRedis;
@@ -217,5 +218,14 @@ class CategoryTest extends TestCase
         // jika ingin banyak scope maka gunakan withoutGlobalScopes
         $res = Category::withoutGlobalScope(IsActiveScope::class)->find('FOOD');
         assertNotNull($res);
+    }
+
+    function testQueryCategory()  {
+        $this->seed([CategorySeeder::class,ProductSeeder::class]);
+
+        $category = Category::find('FOOD');
+        assertNotNull($category);
+        assertNotNull($category->products);
+        assertCount(1,$category->products);
     }
 }
