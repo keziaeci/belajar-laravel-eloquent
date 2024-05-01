@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\Category;
+use App\Models\Scopes\IsActiveScope;
 use Database\Seeders\CategorySeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -33,10 +34,12 @@ class CategoryTest extends TestCase
         for ($i=0; $i < 10; $i++) { 
             $categories[] = [
                 'id' => "ID $i",
-                'name' => "Name $i"
+                'name' => "Name $i",
+                'is_active' => true
             ];
         }
 
+        
         // Category::insert() dan Category::query()->insert() cara kerjanya sama
         $result = Category::query()->insert($categories);
         
@@ -45,6 +48,7 @@ class CategoryTest extends TestCase
         
         // Category::count() dan Category::query()->count() cara kerjanya sama
         $total = Category::query()->count();
+        // dd($total);
         // dd($categories);
         assertEquals(10, $total);
     }
@@ -52,7 +56,7 @@ class CategoryTest extends TestCase
     function testFind() {
         $this->seed(CategorySeeder::class);
 
-        $category = Category::find("FOOD");
+        $category = Category::withoutGlobalScope(IsActiveScope::class)->find("FOOD");
         // dd($category);
         assertNotNull($category);
         assertEquals("FOOD", $category->id);
@@ -63,7 +67,7 @@ class CategoryTest extends TestCase
     function testUpdate() {
         $this->seed(CategorySeeder::class);
     
-        $category = Category::find("FOOD");
+        $category = Category::withoutGlobalScope(IsActiveScope::class)->find("FOOD");
         $category->name = 'Food Update';
 
         $res = $category->update();
@@ -80,7 +84,7 @@ class CategoryTest extends TestCase
             $category->save();
         }
 
-        $categories = Category::whereNull('description')->get();
+        $categories = Category::withoutGlobalScope(IsActiveScope::class)->whereNull('description')->get();
         // dd($categories->count());
         assertCount(5,$categories);
         $categories->each(function ($cat) {
@@ -96,7 +100,7 @@ class CategoryTest extends TestCase
             $category->save();
         }
 
-        $categories = Category::whereNull('description')->get();
+        $categories = Category::withoutGlobalScope(IsActiveScope::class)->whereNull('description')->get();
         // dd($categories->count());
         assertCount(5,$categories);
         $categories->each(function ($cat) {
@@ -118,18 +122,20 @@ class CategoryTest extends TestCase
         $result = Category::query()->insert($categories);
         assertTrue($result);
 
-        Category::whereNull('description')->update([
+        Category::withoutGlobalScope(IsActiveScope::class)->whereNull('description')->update([
             'description' => 'updated',
         ]);
 
-        $total = Category::where('description', 'updated')->count();
+        
+        $total = Category::withoutGlobalScope(IsActiveScope::class)->where('description', 'updated')->count();
+        // dd($total);
         assertEquals(10,$total);
     }
 
     function testDelete() {
         $this->seed(CategorySeeder::class);
 
-        $category = Category::find('FOOD');
+        $category = Category::withoutGlobalScope(IsActiveScope::class)->find('FOOD');
         $result = $category->delete();
 
         assertTrue($result);
@@ -188,14 +194,27 @@ class CategoryTest extends TestCase
             'description' => 'Food Updated',
         ];
 
-        $category = Category::find("FOOD");
+        $category = Category::withoutGlobalScope(IsActiveScope::class)->find("FOOD");
         $category->fill($req);
         $category->save();
 
         assertNotNull($category->id);
     }
 
-    function testSoftDelete() {
-        
+    function testFalseGlobalScope() {
+        $category = new Category();
+        $category->id = "FOOD";
+        $category->name = "Food";
+        $category->description = "Food Category";
+        $category->is_active = false;
+        $category->save();
+
+        // data akan null karena global scope hanya ambil data yang is_active = true
+        $res = Category::find('FOOD');
+        assertNull($res);
+
+        // jika ingin banyak scope maka gunakan withoutGlobalScopes
+        $res = Category::withoutGlobalScope(IsActiveScope::class)->find('FOOD');
+        assertNotNull($res);
     }
 }

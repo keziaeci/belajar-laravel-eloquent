@@ -15,6 +15,7 @@ return new class extends Migration
             $table->uuid('id')->nullable(false)->primary();
             $table->string('name', 100)->nullable(false);
             $table->string('voucher_code', 200)->nullable(false);
+            $table->boolean('is_active')->nullable()->default(false);
             $table->softDeletes();
             $table->timestamp('created_at')->nullable(false)->useCurrent();
         });

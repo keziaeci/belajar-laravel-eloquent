@@ -2,18 +2,28 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Scopes\IsActiveScope;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Attributes\ScopedBy;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
+
+#[ScopedBy([IsActiveScope::class])]
 class Category extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['id','name','description']; 
+    protected $fillable = ['id','name','description','is_active']; 
 
     protected $table = 'categories';
     protected $primaryKey = 'id';
     protected $keyType = 'string';
     public $incrementing = false;
     public $timestamps = false;
+
+    // protected static function boot()
+    // {
+    //     parent::boot();
+    //     static::addGlobalScope(new IsActiveScope);
+    // } bisa pakai ini atau yang diatas
 }
