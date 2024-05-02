@@ -274,5 +274,5 @@ class CategoryTest extends TestCase
         assertNotNull($category->reviews);
         assertCount(2,$category->reviews);
     }
-
+    
 }
