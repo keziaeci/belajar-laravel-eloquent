@@ -12,7 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('wallets', function (Blueprint $table) {
-            $table->id();
+            // $table->id();
+            $table->string('id', 100)->nullable(false)->primary();
             $table->string('customer_id', 100);
             $table->bigInteger('amount')->nullable(false)->default(0);
             $table->foreign('customer_id')->on('customers')->references('id');
