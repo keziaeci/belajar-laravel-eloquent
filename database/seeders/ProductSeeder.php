@@ -13,11 +13,19 @@ class ProductSeeder extends Seeder
      */
     public function run(): void
     {
-        $category = new Product();
-        $category->id = '1';
-        $category->name = 'Product 1';
-        $category->description = 'Desc 1';
-        $category->category_id = "FOOD";
-        $category->save();
+        $product = new Product();
+        $product->id = '1';
+        $product->name = 'Product 1';
+        $product->description = 'Desc 1';
+        $product->category_id = "FOOD";
+        $product->save();
+
+        $product2 = new Product();
+        $product2->id = '2';
+        $product2->name = 'Product 2';
+        $product2->description = 'Desc 2';
+        $product2->category_id = "FOOD";
+        $product2->price = 200;
+        $product2->save();
     }
 }

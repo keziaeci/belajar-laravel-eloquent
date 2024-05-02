@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\Category;
 use App\Models\Product;
 use Tests\TestCase;
 use Database\Seeders\ProductSeeder;
@@ -17,11 +18,21 @@ class ProductTest extends TestCase
 {
     function testQueryProduct() {
         $this->seed([CategorySeeder::class,ProductSeeder::class]);
-
+        
         $product = Product::find('1');
         assertNotNull($product);
         assertNotNull($product->category);
         // dd($product->category);
         assertEquals("FOOD",$product->category->id);
+    }
+    
+    function testHasOneOfMany() {
+        $this->seed([CategorySeeder::class,ProductSeeder::class]);
+        $category = Category::find('FOOD');
+        assertNotNull($category);
+        assertNotNull($category->products);
+        // dd($category->cheapestProduct);
+        assertEquals("1",$category->cheapestProduct->id);
+        assertEquals("2",$category->mostExpensiveProduct->id);
     }
 }

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 #[ScopedBy([IsActiveScope::class])]
 class Category extends Model
@@ -31,4 +32,12 @@ class Category extends Model
     //     parent::boot();
     //     static::addGlobalScope(new IsActiveScope);
     // } bisa pakai ini atau yang diatas
+
+    function cheapestProduct() : HasOne {
+        return $this->hasOne(Product::class, 'category_id', 'id')->oldest('price');
+    }
+
+    function mostExpensiveProduct() : HasOne {
+        return $this->hasOne(Product::class, 'category_id', 'id')->latest('price');
+    }
 }

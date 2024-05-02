@@ -227,7 +227,7 @@ class CategoryTest extends TestCase
         $category = Category::find('FOOD');
         assertNotNull($category);
         assertNotNull($category->products);
-        assertCount(1,$category->products);
+        assertCount(2,$category->products);
     }
 
     function testOneToManyInsert() {
@@ -256,9 +256,11 @@ class CategoryTest extends TestCase
         
         $category = Category::find('FOOD');
         $product = $category->products;
-        assertCount(1,$product);
+        assertCount(2,$product);
         
         $outOfStockProducts = $category->products()->where('stock' , '<=' , 0)->get();
-        assertCount(1,$outOfStockProducts);
+        assertCount(2,$outOfStockProducts);
     }
+
+
 }
