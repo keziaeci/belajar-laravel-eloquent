@@ -17,7 +17,6 @@ return new class extends Migration
             $table->primary(['customer_id','product_id']);
             $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade');
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
-            $table->timestamps();
         });
     }
 

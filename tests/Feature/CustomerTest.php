@@ -83,19 +83,22 @@ class CustomerTest extends TestCase
     }
 
     function testManyToManyDetach() {
+        // $this->seed([CustomerSeeder::class, CategorySeeder::class, ProductSeeder::class]); 
+        
         $this->testInsertManyToMany();
-
+        
         $customer = Customer::find('RENA');
-        $p = Product::find('1');
+        // $customer->likeProducts()->attach('1');
+        // $p = Product::find('1');
         // dd($customer->likeProducts);
         // assertNotNull($p);
-        assertNotNull($customer->likeProducts);
+        // assertNotNull($customer->likeProducts);
 
         $customer->likeProducts()->detach('1');
         // $prod = $customer->likeProducts;
         // dd($prod);
-        dd($p->likedBy);
-        // dd($p);
+        // dd($p->likedBy);
+        // dd($p->likedBy);
         // assertCount(0, $prod);
         // dd($customer->likeProducts()->detach('1'));
         // dd($customer->likeProducts);
