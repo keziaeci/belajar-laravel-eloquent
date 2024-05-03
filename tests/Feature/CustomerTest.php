@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Models\Customer;
 use App\Models\Product;
 use App\Models\Wallet;
+use Carbon\Carbon;
 use Database\Seeders\CategorySeeder;
 use Database\Seeders\CustomerSeeder;
 use Database\Seeders\ProductSeeder;
@@ -93,6 +94,12 @@ class CustomerTest extends TestCase
         // dd($customer->likeProducts);
         // assertNotNull($p);
         // assertNotNull($customer->likeProducts);
+        // $customer->likeProducts->each(function ($item){
+        //     // dd($item->name);
+        //     // dd($item->pivot->customer_id);
+        //     // dd($item->pivot->created_at);
+        // });
+        // dd($customer->likeProducts);
 
         $customer->likeProducts()->detach('1');
         // $prod = $customer->likeProducts;
@@ -101,7 +108,31 @@ class CustomerTest extends TestCase
         // dd($p->likedBy);
         // assertCount(0, $prod);
         // dd($customer->likeProducts()->detach('1'));
-        // dd($customer->likeProducts);
         assertCount(0,$customer->likeProducts);
+    }
+
+    function testPivotAttribute()  {
+        $this->testInsertManyToMany();
+        $customer = Customer::find('RENA');
+        $customer->likeProducts->each(function ($item){
+            assertEquals('RENA',$item->pivot->customer_id);
+            assertEquals('1',$item->pivot->product_id);
+            // dd($item->name);
+            // dd($item->pivot->customer_id);
+            // dd($item->pivot->created_at);
+            // dd(Carbon::now() >= Carbon::now()->addDays(-7));
+            // dd($item->pivot->created_at->isLastWeek());
+        });
+    }
+
+    function testPivotWithCondition() {
+        $this->testInsertManyToMany();
+        $customer = Customer::find('RENA');
+        $customer->likeProductsLastWeek->each(function ($item){
+            assertNotNull($item);
+            assertNotNull($item->pivot);
+            assertEquals('RENA',$item->pivot->customer_id);
+            assertEquals('1',$item->pivot->product_id);
+        });
     }
 }

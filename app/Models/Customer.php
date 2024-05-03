@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -37,6 +38,15 @@ class Customer extends Model
     }
 
     function likeProducts() : BelongsToMany {
-        return $this->belongsToMany(Product::class,'customers_likes_products','customer_id', 'product_id');
+        return $this->belongsToMany(Product::class,'customers_likes_products','customer_id', 'product_id')
+        // ->withPivot('created_at');
+        ->withTimestamps();
+    }
+
+    function likeProductsLastWeek() : BelongsToMany {
+        return $this->belongsToMany(Product::class,'customers_likes_products','customer_id', 'product_id')
+        // ->withPivot('created_at');
+        ->withTimestamps()
+        ->wherePivot('created_at', '>=' , Carbon::now()->addDays(-7));
     }
 }
