@@ -23,10 +23,12 @@ class Product extends Model
     }
 
     function reviews() : HasMany {
-        return $this->hasMany(Review::class,'product_id','id');
+        return $this->hasMany(Review::class,'product_id','id')
+        ->using(Like::class);
     }
 
     function likedBy() : BelongsToMany {
-        return $this->belongsToMany(Customer::class,'customers_likes_products','product_id','customer_id');
+        return $this->belongsToMany(Customer::class,'customers_likes_products','product_id','customer_id')
+        ->using(Like::class);
     }
 }

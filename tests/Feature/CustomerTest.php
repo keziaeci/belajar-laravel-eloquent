@@ -119,6 +119,7 @@ class CustomerTest extends TestCase
             assertEquals('1',$item->pivot->product_id);
             // dd($item->name);
             // dd($item->pivot->customer_id);
+            // dd($item->pivot->customer);
             // dd($item->pivot->created_at);
             // dd(Carbon::now() >= Carbon::now()->addDays(-7));
             // dd($item->pivot->created_at->isLastWeek());
@@ -135,4 +136,17 @@ class CustomerTest extends TestCase
             assertEquals('1',$item->pivot->product_id);
         });
     }
+    
+    function testPivotModel() {
+        $this->testInsertManyToMany();
+        $customer = Customer::find('RENA');
+        $customer->likeProductsLastWeek->each(function ($item){
+            assertNotNull($item);
+            assertNotNull($item->pivot->customer);
+            assertNotNull($item->pivot->product);
+            assertEquals('RENA',$item->pivot->customer_id);
+            assertEquals('1',$item->pivot->product_id);
+        });
+    }
+
 }

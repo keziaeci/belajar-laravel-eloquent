@@ -40,13 +40,15 @@ class Customer extends Model
     function likeProducts() : BelongsToMany {
         return $this->belongsToMany(Product::class,'customers_likes_products','customer_id', 'product_id')
         // ->withPivot('created_at');
-        ->withTimestamps();
+        ->withTimestamps()
+        ->using(Like::class);
     }
-
+    
     function likeProductsLastWeek() : BelongsToMany {
         return $this->belongsToMany(Product::class,'customers_likes_products','customer_id', 'product_id')
         // ->withPivot('created_at');
         ->withTimestamps()
-        ->wherePivot('created_at', '>=' , Carbon::now()->addDays(-7));
+        ->wherePivot('created_at', '>=' , Carbon::now()->addDays(-7))
+        ->using(Like::class);
     }
 }
