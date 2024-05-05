@@ -22,7 +22,8 @@ class CommentSeeder extends Seeder
             $comment->title = 'Title';
             $comment->comment = 'comment product';
             $comment->commentable_id = $product->id;
-            $comment->commentable_type = Product::class;
+            $comment->commentable_type = 'product';
+            // $comment->commentable_type = Product::class;
             $comment->save();
         }
         {
@@ -32,7 +33,8 @@ class CommentSeeder extends Seeder
             $comment->title = 'Title';
             $comment->comment = 'comment voucher';
             $comment->commentable_id = $voucher->id;
-            $comment->commentable_type = Voucher::class;
+            $comment->commentable_type = 'voucher'; //mengganti string karena sudah ada alias di service profider
+            // $comment->commentable_type = Voucher::class;
             $comment->save();
         }
     }

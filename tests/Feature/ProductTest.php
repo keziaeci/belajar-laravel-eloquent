@@ -47,7 +47,8 @@ class ProductTest extends TestCase
         assertNotNull($prod->comments);
         
         $prod->comments->each(function ($comment) use ($prod) {
-            assertEquals(Product::class,$comment->commentable_type);
+            assertEquals('product',$comment->commentable_type);
+            // assertEquals(Product::class,$comment->commentable_type);
             assertEquals($prod->id,$comment->commentable_id);
         });
         // dd($prod->comments);

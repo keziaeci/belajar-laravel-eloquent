@@ -19,14 +19,16 @@ class ImageSeeder extends Seeder
             $img = new Image();
             $img->url = 'https://pin.it/2uGiO7hR6';
             $img->imageable_id = 'RENA';
-            $img->imageable_type = Customer::class;
+            $img->imageable_type = 'customer';
+            // $img->imageable_type = Customer::class;
             $img->save();
         }
         {
             $img = new Image();
             $img->url = 'https://pin.it/AlWCh81r6';
             $img->imageable_id = '1';
-            $img->imageable_type = Product::class;
+            $img->imageable_type = 'product';
+            // $img->imageable_type = Product::class;
             $img->save();
         }
     }
