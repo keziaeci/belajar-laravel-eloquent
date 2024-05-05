@@ -8,6 +8,7 @@ use Tests\TestCase;
 use Database\Seeders\ProductSeeder;
 use Database\Seeders\CategorySeeder;
 use Database\Seeders\CommentSeeder;
+use Database\Seeders\TagSeeder;
 use Database\Seeders\VoucherSeeder;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -62,5 +63,19 @@ class ProductTest extends TestCase
         // dd($prod->oldestComment);
     }
 
-    
+    function testManyToManyPolymorphic()  {
+        $this->seed([CategorySeeder::class,ProductSeeder::class,VoucherSeeder::class,TagSeeder::class]);
+
+        $prod = Product::find('1');
+        assertNotNull($prod->tags);
+        // dd($prod->tags);
+        $prod->tags->each(function ($tag) {
+            // dd($tag);
+            assertNotNull($tag->id);
+            assertNotNull($tag->name);
+            // dd($tag->products);
+            assertNotNull($tag->vouchers);
+        });
+        
+    }
 }   

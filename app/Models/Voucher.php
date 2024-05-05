@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 class Voucher extends Model
 {
@@ -34,5 +35,9 @@ class Voucher extends Model
 
     function scopeNonActive($query) {
         $query->where('is_active', false);
+    }
+
+    function tags() : MorphToMany {
+        return $this->morphToMany(Tag::class, 'taggable','taggables');
     }
 }
