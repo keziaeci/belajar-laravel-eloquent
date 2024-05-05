@@ -159,5 +159,11 @@ class CustomerTest extends TestCase
         assertEquals('https://pin.it/2uGiO7hR6',$customer->image->url);
     }
     
-    
+    function testEagerLoading()  {
+        $this->seed([CustomerSeeder::class,WalletSeeder::class,ImageSeeder::class]);
+
+        $customer = Customer::with(['wallet','image'])->find('RENA');
+        // dd($customer);
+        assertNotNull($customer);
+    }
 }
