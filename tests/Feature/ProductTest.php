@@ -51,4 +51,16 @@ class ProductTest extends TestCase
         });
         // dd($prod->comments);
     }
-}
+    
+    function testOneOfManyPolymorphic() {
+        $this->seed([CategorySeeder::class, ProductSeeder::class, VoucherSeeder::class , CommentSeeder::class]);
+        $prod = Product::find('1');
+        assertNotNull($prod);
+        assertNotNull($prod->latestComment);
+        assertNotNull($prod->oldestComment);
+        // dd($prod->latestComment);
+        // dd($prod->oldestComment);
+    }
+
+    
+}   
