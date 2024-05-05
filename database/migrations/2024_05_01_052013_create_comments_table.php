@@ -16,6 +16,8 @@ return new class extends Migration
             $table->string('email', 100)->nullable(false);
             $table->string('title', 200)->nullable(false);
             $table->text('comment')->nullable(true);
+            $table->string('commentable_id', 100);
+            $table->string('commentable_type', 100);
             $table->timestamps();
         });
     }

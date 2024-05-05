@@ -157,6 +157,7 @@ class CustomerTest extends TestCase
         assertNotNull($customer);
         assertNotNull($customer->image);
         assertEquals('https://pin.it/2uGiO7hR6',$customer->image->url);
-        
     }
+    
+    
 }

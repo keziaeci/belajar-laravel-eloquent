@@ -7,6 +7,8 @@ use App\Models\Product;
 use Tests\TestCase;
 use Database\Seeders\ProductSeeder;
 use Database\Seeders\CategorySeeder;
+use Database\Seeders\CommentSeeder;
+use Database\Seeders\VoucherSeeder;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -34,5 +36,19 @@ class ProductTest extends TestCase
         // dd($category->cheapestProduct);
         assertEquals("1",$category->cheapestProduct->id);
         assertEquals("2",$category->mostExpensiveProduct->id);
+    }
+
+    function testOneToManyPolymorphic() {
+        $this->seed([CategorySeeder::class, ProductSeeder::class, VoucherSeeder::class , CommentSeeder::class]);
+        
+        $prod = Product::find('1');
+        assertNotNull($prod);
+        assertNotNull($prod->comments);
+        
+        $prod->comments->each(function ($comment) use ($prod) {
+            assertEquals(Product::class,$comment->commentable_type);
+            assertEquals($prod->id,$comment->commentable_id);
+        });
+        // dd($prod->comments);
     }
 }

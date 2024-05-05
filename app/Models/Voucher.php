@@ -2,10 +2,11 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Concerns\HasUuids;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Voucher extends Model
 {
@@ -23,6 +24,10 @@ class Voucher extends Model
         return [$this->primaryKey, 'voucher_code'];   
     }
 
+    function comments() : MorphMany {
+        return $this->morphMany(Comment::class, 'commentable');
+    }
+    
     function scopeActive($query) {
         $query->where('is_active', true);
     }
